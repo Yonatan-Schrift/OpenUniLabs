@@ -12,21 +12,23 @@ char *clean_arg( char *arg)
     int i, j;
     int len;
 
-    if (arg == NULL)
+    if (arg == NULL || *arg == '\0')
     {
         return NULL;
     }
 
     len = strlen(arg);
-
+    
     /* Allocating memory with the same length as arg. */
-    output = (char *)malloc((len+1) * sizeof(char));
+    output = malloc((len+1) * sizeof(char));
+
     if (!output)
     {
         fprintf(stderr, "Failed memory allocation\n");
         return NULL; /* Memory allocation failed */
     }
-    /* Copies everything but whitespaces from the original string to the output */
+
+    /* Copy non-whitespace characters */
     for (i = 0, j = 0; i < len; i++)
     {
         if (!isspace(arg[i]))
@@ -75,6 +77,8 @@ int verify_arguments(char **args, int command_index)
             return verify_arg;
         }
     }
+    
+    
 
     return SUCCESS_CODE;
 }

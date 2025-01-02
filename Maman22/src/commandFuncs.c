@@ -27,7 +27,6 @@ const Command commands[] = {
     {NULL, NULL, 0, {0}} /* Terminator entry */
 };
 
-
 int is_command(const char *command)
 {
     int command_index;
@@ -138,13 +137,21 @@ commandValue *split_command(const char *string)
 
     param_count = commands[output->index].param_count;
 
-    args = allocate_str_array(param_count);
+    args = malloc((param_count) * sizeof(char *) + 1);
+    if (!args)
+    {
+        free(input_copy);
+        fprintf(stderr, "Failed memory allocation\n");
+        return output; /* Memory allocation failed */
+    }
+
+    args[param_count] = NULL; /* NULL-terminating the array */
 
     output->cmd = &commands[output->index];
 
     
     /* Saves all the given arguments from the string into a string array */
-    for (i = 0; token != NULL; i++)
+    for (i = 0; token != NULL && i < param_count; i++)
     {
         printf("token is: %s\n", token);
         token = strtok(NULL, ",");
@@ -162,8 +169,8 @@ commandValue *split_command(const char *string)
         }
     }
 
+ 
     free(input_copy);
-    free(token);
 
     output->args = args;
 

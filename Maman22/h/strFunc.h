@@ -6,19 +6,6 @@
 
 
 /**
- * @brief Allocates memory for a NULL-terminated array of strings
- * 
- * @param size The number of strings the array should be able to hold
- * @return char** Pointer to the allocated array of string pointers, or NULL if allocation fails
- * 
- * This function allocates memory for an array that can hold 'size' string pointers.
- * The array is NULL-terminated (i.e., the element at index 'size' is set to NULL).
- * If memory allocation fails, returns NULL and prints an error message.
- */
-char **allocate_str_array(int size);
-
-
-/**
  * @brief Copies a string from origin to a new allocated memory
  * 
  * @param origin The source string to be copied

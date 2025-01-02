@@ -17,9 +17,11 @@ int read_comp_handle(commandValue *command) {
 
     /* Verifying the amount of arguments and types of them. */
     verify_arg = verify_arguments(command->args, command->index);
-    if(verify_arg < 0) {
+    if(verify_arg < SUCCESS_CODE) {
+        free_command(command);
         return verify_arg;
     }
+
     comp = char_to_comp(command->args[0]);
     real_part = str_to_double(command->args[1]);
     imaginary_part = str_to_double(command->args[2]);
@@ -37,7 +39,8 @@ int print_comp_handle(commandValue *command) {
 
     /* Verifying the amount of arguments and types of them. */
     verify_arg = verify_arguments(command->args, command->index);
-    if(verify_arg < 0) {
+    if(verify_arg < SUCCESS_CODE) {
+        free_command(command);
         return verify_arg;
     }
 
@@ -53,7 +56,8 @@ int add_comp_handle(commandValue *command) {
 
     /* Verifying the amount of arguments and types of them. */
     verify_arg = verify_arguments(command->args, command->index);
-    if(verify_arg < 0) {
+    if(verify_arg < SUCCESS_CODE) {
+        free_command(command);
         return verify_arg;
     }
 
@@ -70,7 +74,8 @@ int sub_comp_handle(commandValue *command) {
 
     /* Verifying the amount of arguments and types of them. */
     verify_arg = verify_arguments(command->args, command->index);
-    if(verify_arg < 0) {
+    if(verify_arg < SUCCESS_CODE) {
+        free_command(command);
         return verify_arg;
     }
 
@@ -88,7 +93,8 @@ int mult_comp_real_handle(commandValue *command) {
 
     /* Verifying the amount of arguments and types of them. */
     verify_arg = verify_arguments(command->args, command->index);
-    if(verify_arg < 0) {
+    if(verify_arg < SUCCESS_CODE) {
+        free_command(command);
         return verify_arg;
     }
 
@@ -106,7 +112,8 @@ int mult_comp_img_handle(commandValue *command) {
 
     /* Verifying the amount of arguments and types of them. */
     verify_arg = verify_arguments(command->args, command->index);
-    if(verify_arg < 0) {
+    if(verify_arg < SUCCESS_CODE) {
+        free_command(command);
         return verify_arg;
     }
     comp = char_to_comp(command->args[0]);
@@ -122,7 +129,8 @@ int mult_comp_comp_handle(commandValue *command) {
 
     /* Verifying the amount of arguments and types of them. */
     verify_arg = verify_arguments(command->args, command->index);
-    if(verify_arg < 0) {
+    if(verify_arg < SUCCESS_CODE) {
+        free_command(command);
         return verify_arg;
     }
 
@@ -139,7 +147,8 @@ int abs_comp_handle(commandValue *command) {
 
     /* Verifying the amount of arguments and types of them. */
     verify_arg = verify_arguments(command->args, command->index);
-    if(verify_arg < 0) {
+    if(verify_arg < SUCCESS_CODE) {
+        free_command(command);
         return verify_arg;
     }
 
@@ -154,10 +163,11 @@ int stop(commandValue *command) {
 
     /* Verifying the amount of arguments and types of them. */
     verify_arg = verify_arguments(command->args, command->index);
-    if(verify_arg < 0) {
+    if(verify_arg < SUCCESS_CODE) {
         free_command(command);
         return verify_arg;
     }
     
+    free_command(command);
     return STOP_CODE;
 }

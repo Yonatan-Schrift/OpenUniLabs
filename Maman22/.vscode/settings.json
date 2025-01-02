@@ -14,7 +14,8 @@
     "math.h": "c",
     "stdlib.h": "c",
     "commandfuncs.h": "c",
-    "complexhandlers.h": "c"
+    "complexhandlers.h": "c",
+    "argumentfuncs.h": "c"
   },
   "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
     "clang-analyzer-security.insecureAPI.strcpy"

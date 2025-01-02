@@ -76,7 +76,8 @@ int run(void) {
     printf("Entered command is %s\n", command_str);
 
     full_command = split_command(command_str);
-
+    free(command_str);
+    
     return run_command(full_command);
 }
 
