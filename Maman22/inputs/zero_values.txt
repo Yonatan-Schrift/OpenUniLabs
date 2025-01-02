@@ -1,0 +1,5 @@
+read_comp C, 0, 0
+print_comp C
+mult_comp_comp C, B
+print_comp C
+stop

@@ -1,0 +1,38 @@
+Complex Number Calculator
+-------------------------
+Please enter the command you would like to use:
+
+
+Available Commands:
+------------------
+read_comp <A-F>, <real>, <imaginary>  - Save a complex number
+print_comp <A-F>                      - Print a complex number
+add_comp <A-F>, <A-F>                 - Add two complex numbers
+sub_comp <A-F>, <A-F>                 - Subtract two complex numbers
+mult_comp_real <A-F>, <real>          - Multiply by a real number
+mult_comp_img <A-F>, <real>           - Multiply by an imaginary number
+mult_comp_comp <A-F>, <A-F>           - Multiply two complex numbers
+abs_comp <A-F>                        - Calculate absolute value
+stop                                  - Exit program
+
+
+Enter command: 
+Entered command is read_comp G, 1, 1
+Invalid complex variable name
+
+Enter command: 
+Entered command is read_comp Z, 1, 1
+Invalid complex variable name
+
+Enter command: 
+Entered command is add_comp G, A
+Invalid complex variable name
+
+Enter command: 
+Entered command is sub_comp A, Z
+Invalid complex variable name
+
+Enter command: 
+Entered command is stop
+
+Goodbye! Thanks for using my program! 

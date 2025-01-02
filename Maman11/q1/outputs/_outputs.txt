@@ -1,0 +1,39 @@
+The outputs for each test should be:
+
+@empty.txt: 
+
+@example.txt: 
+I am young. You are young. All of us are young.
+"I THINK WE NEED SOME HELP. PLEASE" help. No,     no    no,
+i do not
+    need help
+
+whatsoever.
+"TODAY’S DATE IS
+    //"...
+I am  years old, are you  years old? maybe      years?
+
+@no_letters.txt:
+""  "    " // : {} | \ !@#$%^^&*() +_. )@,
+
+@single_quotes.txt:
+Hey, this is cool. The (t) should be uppercase "LIKE THIS. THIS IS THE END
+
+@test_everything.txt:
+This test should check all of the rules (-).
+In the above sentence the first letter was lowercase, it should be uppercase.
+In this sentence some words are uppercase, while they should be lowercase.
+In this sentence there are quotes, they should be uppercase "THIS IS INSIDE THE QUOTES,  A.K.A UPPERCASE.".
+In this sentence i've added numbers and other ascii ($o_o$) characters        including tabs,
+
+newlines and spaces.
+
+This sentence does not have a period, this is the end (imagine there's a period here)
+
+@double_period.txt:
+"THIS IS INSIDE THE QUOTES,  A.K.A UPPERCASE.".
+In
+new
+
+"UPPERCASE.".
+In

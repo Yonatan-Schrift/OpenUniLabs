@@ -1,0 +1,86 @@
+Complex Number Calculator
+-------------------------
+Please enter the command you would like to use:
+
+
+Available Commands:
+------------------
+read_comp <A-F>, <real>, <imaginary>  - Save a complex number
+print_comp <A-F>                      - Print a complex number
+add_comp <A-F>, <A-F>                 - Add two complex numbers
+sub_comp <A-F>, <A-F>                 - Subtract two complex numbers
+mult_comp_real <A-F>, <real>          - Multiply by a real number
+mult_comp_img <A-F>, <real>           - Multiply by an imaginary number
+mult_comp_comp <A-F>, <A-F>           - Multiply two complex numbers
+abs_comp <A-F>                        - Calculate absolute value
+stop                                  - Exit program
+
+
+Enter command: 
+Entered command is read_comp G, 3.1, 6.5
+Invalid complex variable name
+
+Enter command: 
+Entered command is read_comp a, 3.6, 5.1
+Invalid complex variable name
+
+Enter command: 
+Entered command is do_it A, B
+Undefined command name
+
+Enter command: 
+Entered command is Add_Comp A, C
+Undefined command name
+
+Enter command: 
+Entered command is read_comp A, 3.5, xyz
+Invalid parameter - not a number
+
+Enter command: 
+Entered command is read_comp A, 3.5
+Missing parameter(s)
+
+Enter command: 
+Entered command is read_comp A, 3.5, -3,
+Extraneous text after end of command
+
+Enter command: 
+Entered command is add_comp B
+Missing parameter(s)
+
+Enter command: 
+Entered command is print_comp C, D
+Extraneous text after end of command
+
+Enter command: 
+Entered command is sub_comp F, , D
+Multiple consecutive commas
+
+Enter command: 
+Entered command is mult_comp_comp F D
+Missing parameter(s)
+
+Enter command: 
+Entered command is mult_comp_real, A, 2.5
+Illegal comma
+
+Enter command: 
+Entered command is mult_comp_img A, B
+Invalid parameter - not a number
+
+Enter command: 
+Entered command is abs_comp
+Missing parameter(s)
+
+Enter command: 
+Entered command is abs_comp 2.5
+Invalid complex variable name
+
+Enter command: 
+Entered command is stop A
+Extraneous text after end of command
+
+Enter command: 
+Entered command is stop
+
+Goodbye! Thanks for using my program! 

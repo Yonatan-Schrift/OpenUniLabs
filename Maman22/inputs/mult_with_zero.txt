@@ -1,0 +1,5 @@
+mult_comp_real C, 0
+print_comp C
+mult_comp_img C, 0
+print_comp C
+stop

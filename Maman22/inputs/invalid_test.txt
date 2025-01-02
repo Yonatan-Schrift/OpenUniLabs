@@ -1,0 +1,5 @@
+read_comp G, 1, 1
+read_comp Z, 1, 1
+add_comp G, A
+sub_comp A, Z
+stop

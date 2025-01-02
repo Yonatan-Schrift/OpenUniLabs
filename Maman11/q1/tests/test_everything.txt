@@ -1,0 +1,11 @@
+this test should check all of the rules (1-5).
+in the above sentence the first letter was lowercase, it should be uppercase.
+in this SENTENCE some words are uppercase, while they SHOULD be LOWERCASE.
+in this SENTENCE there are q1u2o3t4e5s, They should be uppercase "this is inside the quotes, 12930 A.K.A uppercase.".
+in thi1s senten4ce I've add6ed num1bers and other9 ascii ($O_O$) c7haracters        including tabs,
+
+newlines and sp123aces.
+
+this sentence does not have a period, this is the end (imagine there's a period here)
+
+

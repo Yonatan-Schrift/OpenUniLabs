@@ -1,0 +1,5 @@
+read_comp A
+read_comp B,
+mult_comp_real
+add_comp
+stop

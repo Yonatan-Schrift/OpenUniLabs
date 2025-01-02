@@ -1,0 +1,13 @@
+Hey user! enter some text: 
+
+This test should check all of the rules (-).
+In the above sentence the first letter was lowercase, it should be uppercase.
+In this sentence some words are uppercase, while they should be lowercase.
+In this sentence there are quotes, they should be uppercase "THIS IS INSIDE THE QUOTES,  A.K.A UPPERCASE.".
+In this sentence i've added numbers and other ascii ($o_o$) characters        including tabs,
+
+newlines and spaces.
+
+This sentence does not have a period, this is the end (imagine there's a period here)
+
+

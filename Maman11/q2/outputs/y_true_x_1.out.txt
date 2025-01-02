@@ -1,0 +1,5 @@
+Enter x: 
+Enter y: 
+
+X after setting the 12th bit: 00000000000000000001000000000001 in binary, 4097 in decimal 
+Is bit 6 set in y? YES

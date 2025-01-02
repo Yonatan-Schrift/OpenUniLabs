@@ -1,0 +1,22 @@
+{
+  "files.associations": {
+    "stdio.h": "c",
+    "bit_utils.h": "c",
+    "search_methods.h": "c",
+    "adjacency.h": "c",
+    "path_methods.h": "c",
+    "user_methods.h": "c",
+    "complex.h": "c",
+    "mathfuncs.h": "c",
+    "ctype.h": "c",
+    "stddef.h": "c",
+    "string.h": "c",
+    "math.h": "c",
+    "stdlib.h": "c",
+    "commandfuncs.h": "c",
+    "complexhandlers.h": "c"
+  },
+  "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+    "clang-analyzer-security.insecureAPI.strcpy"
+  ]
+}

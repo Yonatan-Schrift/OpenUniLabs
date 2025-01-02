@@ -1,0 +1,79 @@
+Complex Number Calculator
+-------------------------
+Please enter the command you would like to use:
+
+
+Available Commands:
+------------------
+read_comp <A-F>, <real>, <imaginary>  - Save a complex number
+print_comp <A-F>                      - Print a complex number
+add_comp <A-F>, <A-F>                 - Add two complex numbers
+sub_comp <A-F>, <A-F>                 - Subtract two complex numbers
+mult_comp_real <A-F>, <real>          - Multiply by a real number
+mult_comp_img <A-F>, <real>           - Multiply by an imaginary number
+mult_comp_comp <A-F>, <A-F>           - Multiply two complex numbers
+abs_comp <A-F>                        - Calculate absolute value
+stop                                  - Exit program
+
+
+Enter command: 
+Entered command is read_comp F, 3.1, 6.5
+Saving F = 3.10, 6.50i
+
+Enter command: 
+Entered command is print_comp F
+3.10 + (6.50)i
+
+
+Enter command: 
+Entered command is read_comp A, 3.5, 2.1
+Saving A = 3.50, 2.10i
+
+Enter command: 
+Entered command is print_comp A
+3.50 + (2.10)i
+
+
+Enter command: 
+Entered command is read_comp B, -1.2, 4.5
+Saving B = -1.20, 4.50i
+
+Enter command: 
+Entered command is print_comp B
+-1.20 + (4.50)i
+
+
+Enter command: 
+Entered command is add_comp A, B
+2.30 + (6.60)i
+
+
+Enter command: 
+Entered command is sub_comp A, B
+4.70 - (2.40)i
+
+
+Enter command: 
+Entered command is mult_comp_real A, 2
+7.00 + (4.20)i
+
+
+Enter command: 
+Entered command is mult_comp_img B, 3
+-13.50 - (3.60)i
+
+
+Enter command: 
+Entered command is mult_comp_comp A, B
+-13.65 + (13.23)i
+
+
+Enter command: 
+Entered command is abs_comp A
+4.08
+
+
+Enter command: 
+Entered command is stop
+
+Goodbye! Thanks for using my program! 

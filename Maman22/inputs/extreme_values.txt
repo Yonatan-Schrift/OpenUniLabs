@@ -1,0 +1,5 @@
+read_comp A, 999999.999999, 999999.999999
+print_comp A
+read_comp B, -999999.999999, -999999.999999
+print_comp B
+stop

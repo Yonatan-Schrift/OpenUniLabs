@@ -1,0 +1,51 @@
+Hey user! input the values for an adjacency matrix with the size of 4.
+You can input the values in any format you want, only the digits will be read. 
+Don't forget! The digits need to be 1 or 0.
+
+| 0 1 1 0 |
+| 0 0 0 0 |
+| 0 0 0 1 |
+| 0 0 0 0 |
+
+Hey user! now input 2 values from the tree, and the program will check if the first one is a root for the second. 
+Enter u (the root): 
+Enter v (the node): 
+Nicely done! u = 2, v = 1
+The output is: 0
+
+Hello again user! For this final part of the assignment, the program will do the same thing as before, but infinitely!
+That means the program will scan for u and v, until you input (-1,-1) or EOF.
+Enter u (the root): 
+Enter v (the node): 
+Nicely done! u = 0, v = 3
+The output is: 1
+
+Enter u (the root): 
+Enter v (the node): 
+Nicely done! u = 0, v = 2
+The output is: 1
+
+Enter u (the root): 
+Enter v (the node): 
+Nicely done! u = 0, v = 1
+The output is: 1
+
+Enter u (the root): 
+Enter v (the node): 
+Nicely done! u = 1, v = 0
+The output is: 0
+
+Enter u (the root): 
+Enter v (the node): 
+Nicely done! u = 1, v = 2
+The output is: 0
+
+Enter u (the root): 
+Enter v (the node): 
+Nicely done! u = 2, v = 3
+The output is: 1
+
+Enter u (the root): 
+
+
+Goodbye!
