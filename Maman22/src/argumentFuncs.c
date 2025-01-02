@@ -9,7 +9,7 @@
 char *clean_arg( char *arg)
 {
     char *output;
-    int i, j;
+    int i , j;
     int len;
 
     if (arg == NULL || *arg == '\0')
@@ -20,8 +20,7 @@ char *clean_arg( char *arg)
     len = strlen(arg);
     
     /* Allocating memory with the same length as arg. */
-    output = malloc((len+1) * sizeof(char));
-
+    output = malloc(len + 1);
     if (!output)
     {
         fprintf(stderr, "Failed memory allocation\n");

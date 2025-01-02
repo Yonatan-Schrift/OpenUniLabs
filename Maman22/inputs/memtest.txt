@@ -1,0 +1,2 @@
+print_comp A
+read_comp A, 45.1, -23.75

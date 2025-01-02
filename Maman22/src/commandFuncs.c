@@ -132,6 +132,7 @@ commandValue *split_command(const char *string)
     if(output->index < SUCCESS_CODE) {
         /* If we recieve an error code, returns the output without any args, and with the error code. */
         free(input_copy);
+        output->args = NULL;
         return output;
     }
 
@@ -142,6 +143,7 @@ commandValue *split_command(const char *string)
     {
         free(input_copy);
         fprintf(stderr, "Failed memory allocation\n");
+        output->args = NULL;
         return output; /* Memory allocation failed */
     }
 
@@ -153,8 +155,8 @@ commandValue *split_command(const char *string)
     /* Saves all the given arguments from the string into a string array */
     for (i = 0; token != NULL && i < param_count; i++)
     {
-        printf("token is: %s\n", token);
         token = strtok(NULL, ",");
+        printf("token is: %s\n", token);
         args[i] = clean_arg(token);
     }
 
@@ -165,10 +167,15 @@ commandValue *split_command(const char *string)
     {
         if (args[param_count - 1] != NULL)
         {
+            /* Clean up allocated memory before setting error */
+            for (i = 0; i < param_count; i++) {
+                free(args[i]);
+            }
+            free(args);
+            output->args = NULL;
             output->index = EXTRA_VARS;
         }
     }
-
  
     free(input_copy);
 
