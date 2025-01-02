@@ -170,6 +170,7 @@ commandValue *split_command(const char *string)
         if (!token)
         {
             output->index = MISSING_VARS;
+            output->args = NULL;
             /* Clean up previously allocated memory */
             for (j = 0; j < i; j++)
             {
@@ -177,31 +178,32 @@ commandValue *split_command(const char *string)
             }
             free(args);
             free(input_copy);
-
+            
             return output;
         }
         args[i] = clean_arg(token);
     }
 
     /* Edge cases: */
-    if (output->index == SUCCESS_CODE)
+    if (output->index >= SUCCESS_CODE)
     {
         /* Check for extra text at the end*/
         token = strtok(NULL, ",");
-        free(input_copy);
         
         if (token != NULL)
         {
             /* Clean up allocated memory before setting error */
             for (i = 0; i < param_count; i++)
             {
-                
                 free(args[i]);
             }
             free(args);
+            free(input_copy);
 
             output->args = NULL;
             output->index = EXTRA_VARS;
+
+            return output;
         }
 
         /* Check for comma at the end */
@@ -215,12 +217,16 @@ commandValue *split_command(const char *string)
                     free(args[i]);
                 }
                 free(args);
+                free(input_copy);
+
                 output->args = NULL;
                 output->index = EXTRA_VARS;
+
+                return output;
             }
         }
     }
-
+    free(input_copy);
 
     output->args = args;
 
