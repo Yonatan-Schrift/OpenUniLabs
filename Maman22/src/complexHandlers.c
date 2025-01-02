@@ -30,6 +30,7 @@ int read_comp_handle(commandValue *command) {
     read_comp(comp, real_part, imaginary_part);
 
     free_command(command);
+
     return SUCCESS_CODE;
 }
 
@@ -45,8 +46,11 @@ int print_comp_handle(commandValue *command) {
     }
 
     comp = char_to_comp(command->args[0]);
+
     print_comp(comp);
+
     free_command(command);
+
     return SUCCESS_CODE;
 }
 
@@ -63,8 +67,11 @@ int add_comp_handle(commandValue *command) {
 
     compA = char_to_comp(command->args[0]);
     compB = char_to_comp(command->args[1]);
+
     add_comp(compA, compB);
+
     free_command(command);
+
     return SUCCESS_CODE;
 }
 
@@ -81,7 +88,9 @@ int sub_comp_handle(commandValue *command) {
 
     compA = char_to_comp(command->args[0]);
     compB = char_to_comp(command->args[1]);
+
     sub_comp(compA, compB);
+
     free_command(command);
     return SUCCESS_CODE;
 }
@@ -100,8 +109,11 @@ int mult_comp_real_handle(commandValue *command) {
 
     comp = char_to_comp(command->args[0]);
     mult = str_to_double(command->args[1]);
+
     mult_comp_real(comp, mult);
+
     free_command(command);
+
     return SUCCESS_CODE;
 }
 
@@ -118,8 +130,11 @@ int mult_comp_img_handle(commandValue *command) {
     }
     comp = char_to_comp(command->args[0]);
     mult = str_to_double(command->args[1]);
+
     mult_comp_img(comp, mult);
+
     free_command(command);
+
     return SUCCESS_CODE;
 }
 
@@ -136,8 +151,11 @@ int mult_comp_comp_handle(commandValue *command) {
 
     compA = char_to_comp(command->args[0]);
     compB = char_to_comp(command->args[1]);
+
     mult_comp_comp(compA, compB);
+
     free_command(command);
+
     return SUCCESS_CODE;
 }
 
@@ -153,8 +171,11 @@ int abs_comp_handle(commandValue *command) {
     }
 
     comp = char_to_comp(command->args[0]);
+
     abs_comp(comp);
+
     free_command(command);
+
     return SUCCESS_CODE;
 }
 
@@ -169,5 +190,6 @@ int stop(commandValue *command) {
     }
     
     free_command(command);
+    
     return STOP_CODE;
 }

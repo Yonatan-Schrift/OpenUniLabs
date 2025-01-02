@@ -47,6 +47,7 @@ int main(void)
         print_error(run_value);
     } while(run_value != STOP_CODE);
 
+
     return SUCCESS_CODE; /* Return 0 on success */
 }
 
@@ -77,7 +78,7 @@ int run(void) {
 
     full_command = split_command(command_str);
     free(command_str);
-    
+
     return run_command(full_command);
 }
 

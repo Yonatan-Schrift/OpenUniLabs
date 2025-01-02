@@ -8,7 +8,7 @@
 
 char *copy_string(const char *origin) {
     /* Allocate memory for new string (length + null terminator) */
-    char *copy = (char *)malloc(strlen((origin) + 1));
+    char *copy = malloc(strlen(origin) + 1);
     if (!copy)
     {
         fprintf(stderr, "Failed memory allocation\n");
@@ -23,6 +23,10 @@ char *copy_string(const char *origin) {
 
 int string_array_len(char **args) {
     int count = 0;
+
+    if(args == NULL) {
+        return FAILED_CODE;
+    }
 
     /* Count strings until NULL terminator is found */
     while (args[count] != NULL)

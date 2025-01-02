@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -ansi -pedantic -std=c90 -g
+CFLAGS = -Wall -fsanitize=address -ansi -pedantic -std=c90 -g
 LDFLAGS = -lm
 
 TARGET = mycomp

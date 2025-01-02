@@ -1,0 +1,6 @@
+print_comp C, D
+sub_comp F, , D
+mult_comp_img A, B
+abs_comp 2.5
+
+stop

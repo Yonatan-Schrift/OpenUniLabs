@@ -107,8 +107,14 @@ char *read_command(void)
 commandValue *split_command(const char *string)
 {
     commandValue *output;
-    char *input_copy, *token, **args;
-    int param_count, i;
+    char *input_copy, *token, *cleaned_arg, **args;
+    int param_count, i, j;
+
+    /* Handle empty string (usually EOF) */
+    if (!string)
+    {
+        return NULL;
+    }
 
     output = malloc(sizeof(commandValue));
     if (!output)
@@ -119,17 +125,23 @@ commandValue *split_command(const char *string)
 
     /* Copies the command since strtok changes the string. */
     input_copy = copy_string(string);
-    printf("origin is: %s\n", input_copy);
-
+    if (!input_copy)
+    {
+        output->index = FAILED_CODE;
+        return output;
+    }
+    
     /* Splits the string, The first part with a whitespace and the rest with commas. */
     /* The first token will always be the command, so I'll check if it's a valid command. */
     token = strtok(input_copy, " ");
-    token = clean_arg(token);
+    cleaned_arg = clean_arg(token);
 
     /* Validates the command and saves the index of the command in the commands array. */
-    output->index = is_command(token);
+    output->index = is_command(cleaned_arg);
+    free(cleaned_arg);
 
-    if(output->index < SUCCESS_CODE) {
+    if (output->index < SUCCESS_CODE)
+    {
         /* If we recieve an error code, returns the output without any args, and with the error code. */
         free(input_copy);
         output->args = NULL;
@@ -138,7 +150,7 @@ commandValue *split_command(const char *string)
 
     param_count = commands[output->index].param_count;
 
-    args = malloc((param_count) * sizeof(char *) + 1);
+    args = malloc((param_count + 1) * sizeof(char *));
     if (!args)
     {
         free(input_copy);
@@ -151,33 +163,64 @@ commandValue *split_command(const char *string)
 
     output->cmd = &commands[output->index];
 
-    
     /* Saves all the given arguments from the string into a string array */
-    for (i = 0; token != NULL && i < param_count; i++)
+    for (i = 0; i < param_count; i++)
     {
         token = strtok(NULL, ",");
-        printf("token is: %s\n", token);
+        if (!token)
+        {
+            output->index = MISSING_VARS;
+            /* Clean up previously allocated memory */
+            for (j = 0; j < i; j++)
+            {
+                free(args[j]);
+            }
+            free(args);
+            free(input_copy);
+
+            return output;
+        }
         args[i] = clean_arg(token);
     }
 
-    /* Edge case:
-     * strtok will ignore this comma because there's nothing after it, so we have to check for it.
-     */
-    if (string[strlen(string) - 1] == ',')
+    /* Edge cases: */
+    if (output->index == SUCCESS_CODE)
     {
-        if (args[param_count - 1] != NULL)
+        /* Check for extra text at the end*/
+        token = strtok(NULL, ",");
+        free(input_copy);
+        
+        if (token != NULL)
         {
             /* Clean up allocated memory before setting error */
-            for (i = 0; i < param_count; i++) {
+            for (i = 0; i < param_count; i++)
+            {
+                
                 free(args[i]);
             }
             free(args);
+
             output->args = NULL;
             output->index = EXTRA_VARS;
         }
+
+        /* Check for comma at the end */
+        else if (string[strlen(string) - 1] == ',')
+        {
+            if (args[param_count - 1] != NULL)
+            {
+                /* Clean up allocated memory before setting error */
+                for (i = 0; i < param_count; i++)
+                {
+                    free(args[i]);
+                }
+                free(args);
+                output->args = NULL;
+                output->index = EXTRA_VARS;
+            }
+        }
     }
- 
-    free(input_copy);
+
 
     output->args = args;
 
@@ -186,12 +229,25 @@ commandValue *split_command(const char *string)
 
 int run_command(commandValue *command)
 {
-    const Command *cmd = command->cmd; 
+    const Command *cmd;
+    int cmd_index; /* only used for failures before running the command */
+
+    /* Handle NULL input - usually EOF */
+    if (!command)
+    {
+        return STOP_CODE;
+    }
+
+    cmd = command->cmd;
 
     /* if the command has an error, return the error. */
     if (command->index < SUCCESS_CODE)
     {
-        return command->index;
+        cmd_index = command->index;
+        command->args = NULL;
+        free_command(command);
+        
+        return cmd_index;
     }
 
     /* run the command (saved in the struct) */
@@ -200,7 +256,7 @@ int run_command(commandValue *command)
 
 void free_command(commandValue *command)
 {
-    int i;
+    int i, arr_len;
 
     if (command == NULL)
     {
@@ -209,17 +265,19 @@ void free_command(commandValue *command)
 
     if (command->args != NULL)
     {
-        for (i = 0; i < string_array_len(command->args); i++)
+        arr_len = string_array_len(command->args);
+        for (i = 0; i < arr_len; i++)
         {
             if (command->args[i] != NULL)
             {
-                free(command->args[i]);
+                free(command->args[i]);  /* Frees each string in the array */
                 command->args[i] = NULL; /* Prevent double-free */
             }
         }
+        /* Free the array itself */
         free(command->args);
         command->args = NULL;
     }
-
+    /* Free the commandValue struct itself */
     free(command);
 }

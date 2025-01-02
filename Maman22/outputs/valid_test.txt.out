@@ -33,3 +33,92 @@ Entered command is print_comp C
 
 Enter command: 
 Entered command is read_comp A, 45.1, -23.75
+Saving A = 45.10, -23.75i
+
+Enter command: 
+Entered command is print_comp A
+45.10 - (23.75)i
+
+
+Enter command: 
+Entered command is read_comp B, 54.2, 3.56
+Saving B = 54.20, 3.56i
+
+Enter command: 
+Entered command is print_comp B
+54.20 + (3.56)i
+
+
+Enter command: 
+Entered command is read_comp C, 0, -1
+Saving C = 0.00, -1.00i
+
+Enter command: 
+Entered command is print_comp C
+0.00 - (1.00)i
+
+
+Enter command: 
+Entered command is add_comp A, B
+99.30 - (20.19)i
+
+
+Enter command: 
+Entered command is sub_comp C, A
+-45.10 + (22.75)i
+
+
+Enter command: 
+Entered command is sub_comp B, B
+0.00 + (0.00)i
+
+
+Enter command: 
+Entered command is sub_comp D, A
+-45.10 + (23.75)i
+
+
+Enter command: 
+Entered command is mult_comp_real A, 2.51
+113.20 - (59.61)i
+
+
+Enter command: 
+Entered command is mult_comp_img A, -2.564
+-60.90 - (115.64)i
+
+
+Enter command: 
+Entered command is mult_comp_comp A, B
+2528.97 - (1126.69)i
+
+
+Enter command: 
+Entered command is mult_comp_comp E , C
+0.00 + (0.00)i
+
+
+Enter command: 
+Entered command is abs_comp A
+50.97
+
+
+Enter command: 
+Entered command is abs_comp B
+54.32
+
+
+Enter command: 
+Entered command is abs_comp C
+1.00
+
+
+Enter command: 
+Entered command is abs_comp F
+0.00
+
+
+Enter command: 
+Entered command is stop
+
+Goodbye! Thanks for using my program! 
