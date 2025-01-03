@@ -1,6 +1,0 @@
-{
-  "files.associations": {
-    "stdio.h": "c",
-    "bit_utils.h": "c"
-  }
-}
