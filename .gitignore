@@ -1,9 +1,9 @@
 # Object files:
-.o
+**/*.o
 
 # Compiled output:
-mycomp
+**/mycomp
 
 # Editor specific
-.vscode/
+**/.vscode/
 
