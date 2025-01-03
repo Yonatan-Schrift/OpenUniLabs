@@ -151,4 +151,5 @@ int is_command(const char *command);
  *                If NULL, function returns without doing anything.
  */
 void free_command(commandValue *command);
+
 #endif /* COMMAND_FUNCS_H */

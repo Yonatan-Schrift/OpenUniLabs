@@ -14,6 +14,15 @@
 #include <string.h>
 #include <stddef.h>
 
+
+/**
+ * @brief Array of Command structures containing all supported commands
+ * 
+ * This constant array holds all the commands that the system supports.
+ * Each element in the array is a Command structure that contains
+ * information about a specific command including its name, function
+ * pointer, and description.
+ */
 const Command commands[] = {
     {"read_comp", read_comp_handle, 3, {ARG_COMPLEX, ARG_DOUBLE, ARG_DOUBLE}},
     {"print_comp", print_comp_handle, 1, {ARG_COMPLEX}},
@@ -266,7 +275,7 @@ commandValue *split_command(const char *string)
         {
             if (args[param_count - 1] != NULL)
             {
-                /* Clean up allocated memory before setting error */
+                /* Clean up and set error code for trailing comma */
                 for (i = 0; i < param_count; i++)
                 {
                     free(args[i]);
@@ -281,13 +290,33 @@ commandValue *split_command(const char *string)
             }
         }
     }
+    /* Clean up the input copy as it is no longer needed */
     free(input_copy);
 
+    /* Assign the parsed arguments to the output structure */
     output->args = args;
 
     return output;
 }
 
+/**
+ * Executes a command based on the provided commandValue structure.
+ *
+ * @param command Pointer to a commandValue structure containing the command to execute
+ *               and its arguments. If NULL, treats as EOF and returns STOP_CODE.
+ *
+ * @return Returns:
+ *         - SUCCESS_CODE  if command executes successfully
+ *         - STOP_CODE  if command is NULL (EOF)
+ *         - Error codes (negative values) if command validation fails:
+ *           - UNDEFINED_COMMAND: Command not found
+ *           - ILLEGAL_COMMA: Illegal comma in command
+ *           - MISSING_VARS: Missing required arguments
+ *           - EXTRA_VARS: Too many arguments provided
+ *           - Any other error codes returned by the specific command function
+ *
+ * @note The function frees the commandValue structure and its contents after execution
+ */
 int run_command(commandValue *command)
 {
     const Command *cmd;
@@ -296,37 +325,49 @@ int run_command(commandValue *command)
     /* Handle NULL input - usually EOF */
     if (!command)
     {
-        return STOP_CODE;
+        return STOP_CODE; /* Signal to stop processing */
     }
 
-    cmd = command->cmd;
+    cmd = command->cmd; /* Retrieve the command structure from the input */
 
     /* if the command has an error, return the error. */
     if (command->index < SUCCESS_CODE)
     {
-        cmd_index = command->index;
-        command->args = NULL;
-        free_command(command);
+        cmd_index = command->index; /* Store the error code */
+        command->args = NULL;       /* Ensure arguments are cleared */
+        free_command(command);      /* Free the command structure */
         
-        return cmd_index;
+        return cmd_index;           /* Return the error code */
     }
 
-    /* run the command (saved in the struct) */
+    /* Execute the command function stored in the command structure */
     return cmd->func(command);
 }
 
+/**
+ * @brief Frees all memory allocated for a commandValue struct.
+ *
+ * This function deallocates all memory associated with a commandValue struct,
+ * including the array of argument strings and the struct itself.
+ * It safely handles NULL pointers and sets freed pointers to NULL to prevent double-free.
+ *
+ * @param command Pointer to the commandValue struct to be freed.
+ *                If NULL, function returns without doing anything.
+ */
 void free_command(commandValue *command)
 {
     int i, arr_len;
-
+    
+    /* If the command is NULL, there's nothing to free */
     if (command == NULL)
     {
         return;
     }
 
+    /* Free the arguments array if it exists */
     if (command->args != NULL)
     {
-        arr_len = string_array_len(command->args);
+        arr_len = string_array_len(command->args);  /* Get the number of arguments */
         for (i = 0; i < arr_len; i++)
         {
             if (command->args[i] != NULL)
@@ -335,9 +376,9 @@ void free_command(commandValue *command)
                 command->args[i] = NULL; /* Prevent double-free */
             }
         }
-        /* Free the array itself */
-        free(command->args);
-        command->args = NULL;
+        
+        free(command->args);    /* Free the array itself */
+        command->args = NULL;   /* Avoid dangling pointer */
     }
     /* Free the commandValue struct itself */
     free(command);

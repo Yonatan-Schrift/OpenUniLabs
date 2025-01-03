@@ -73,13 +73,14 @@ int run(void) {
 
     printf("\nEnter command: \n");
 
-    command_str = read_command();
-    printf("Entered command is %s\n", command_str);
+    command_str = read_command(); /* Read the command from the user */
+    printf("Entered command is %s\n", command_str); /* Display the entered command */
 
-    full_command = split_command(command_str);
-    free(command_str);
+    full_command = split_command(command_str); /* Parse the command into its components */
+    free(command_str); /* Free the memory allocated for the raw command string */
 
-    return run_command(full_command);
+
+    return run_command(full_command); /* Execute the parsed command and return its result */
 }
 
 void print_error(int error) {
