@@ -1,7 +1,0 @@
-Checks: '-*,clang-analyzer-*,modernize-use-nullptr'
-WarningsAsErrors: '*'
-HeaderFilterRegex: '.*'
-AnalyzeTemporaryDtors: false
-FormatStyle: none
-User: ''
-ExtraArgs: ['-std=c90']
