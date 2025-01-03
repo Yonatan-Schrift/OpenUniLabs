@@ -1,11 +1,17 @@
-/* 
+/**
  * Maman 22
- * Yonatan Schrift
  * 
- * Header file containing function declarations for commands.
+ * @file commandFuncs.h
+ * @brief Header file containing function declarations for command processing operations
  * 
- * 23.12.2024
+ * This header file declares functions that handle command processing
+ * and related operations for the project.
+ * 
+ * @author Yonatan Schrift
+ * @date 23.12.2024
+ * 
  */
+
 #include "complex.h"
 #include "argumentFuncs.h"
 #include "complexHandlers.h"
@@ -32,11 +38,12 @@ struct commandValue;
 
 /**
  * @brief A structure representing a command in the program
- * 
+ *
  * This structure stores information about a command, including its parameters,
  * type, and any associated data needed for command execution.
  */
-typedef struct Command{
+typedef struct Command
+{
     const char *name;
     int (*func)(struct commandValue *command);
     int param_count;
@@ -45,87 +52,103 @@ typedef struct Command{
 
 /**
  * @brief A structure to hold command data and its value
- * 
+ *
  * The commandValue structure is used to store a command and its associated value,
  * allowing for organized handling of command-line inputs and processing.
- * 
+ *
  * @note the index value is also used to save error codes in the command.
  */
-typedef struct commandValue {
+typedef struct commandValue
+{
     const Command *cmd;
     char **args;
     int index;
 } commandValue;
 
-
 extern const Command commands[];
 
-
-
 /**
- * Reads a command from standard input.
- * Dynamically allocates memory to store the command string.
- * Reads characters until newline or EOF is encountered.
- * 
- * @return Pointer to dynamically allocated string containing the command,
- *         or NULL if memory allocation fails or EOF is encountered with no input
+ * Reads a command from standard input character by character.
+ * Dynamically allocates memory for the command string, doubling the buffer size when needed.
+ *
+ * @return A pointer to the dynamically allocated string containing the command,
+ *         or NULL if:
+ *         - Memory allocation fails
+ *         - EOF is encountered with no input
+ *
+ * @note The returned string must be freed by the caller when no longer needed
  */
 char *read_command(void);
 
-
 /**
  * Executes a command based on the provided commandValue structure.
- * 
- * @param command A pointer to a commandValue structure containing the command details to execute
- * @return STOP_CODE if the command is "stop"
- *         FAILED_CODE if the command is invalid or fails to execute
- *         The return value of the command's function otherwise
- * 
- * The function checks if the command is "stop" or invalid first. If neither,
- * it executes the command's associated function stored in the commandValue struct.
+ *
+ * @param command Pointer to a commandValue structure containing the command to execute
+ *               and its arguments. If NULL, treats as EOF and returns STOP_CODE.
+ *
+ * @return Returns:
+ *         - SUCCESS_CODE  if command executes successfully
+ *         - STOP_CODE  if command is NULL (EOF)
+ *         - Error codes (negative values) if command validation fails:
+ *           - UNDEFINED_COMMAND: Command not found
+ *           - ILLEGAL_COMMA: Illegal comma in command
+ *           - MISSING_VARS: Missing required arguments
+ *           - EXTRA_VARS: Too many arguments provided
+ *           - Any other error codes returned by the specific command function
+ *
+ * @note The function frees the commandValue structure and its contents after execution
  */
 int run_command(commandValue *Command);
 
-
 /**
- * Splits a command string into its components (command name and arguments).
- * Creates and returns a commandValue struct containing the parsed command information.
- * 
- * @param command The input command string to be parsed
- * @return A pointer to a newly allocated commandValue struct containing:
- *         - index: Command index in commands array (FAILED_CODE if invalid, STOP_CODE if "stop")
- *         - cmd: Pointer to the matching Command struct 
- *         - args: Array of parsed argument strings
- *         Returns NULL if memory allocation fails
- *         Caller is responsible for freeing returned struct using free_command()
+ * Splits a command string into its command and arguments.
  *
- * The function:
- * 1. Validates the command name
- * 2. Splits arguments on commas
- * 3. Cleans and processes each argument
- * 4. Handles error cases like illegal commas and undefined commands
+ * This function takes a command string and parses it into a commandValue structure
+ * containing the command index, command pointer, and an array of argument strings.
+ * The command is validated against the commands array and argument parsing follows
+ * these rules:
+ * - First token is split by whitespace (command name)
+ * - Subsequent tokens are split by commas (arguments)
+ * - Arguments are cleaned of whitespace
+ * - Checks for correct number of arguments based on command definition
+ *
+ * @param command The input string containing the command and arguments
+ * @return A pointer to a newly allocated commandValue structure containing:
+ *         - index: Command index or error code if validation fails
+ *         - cmd: Pointer to the command definition
+ *         - args: Array of argument strings (NULL-terminated)
+ *         Returns NULL if memory allocation fails or input is NULL
+ *
+ * Error codes returned in commandValue->index:
+ * - UNDEFINED_COMMAND: Command name not found
+ * - ILLEGAL_COMMA: Command ends with illegal comma
+ * - MISSING_VARS: Too few arguments provided
+ * - EXTRA_VARS: Too many arguments provided
+ * - FAILED_CODE: Memory allocation failure
+ *
+ * @note: Caller is responsible for freeing the returned structure using free_command()
  */
 commandValue *split_command(const char *command);
 
-
 /**
- * Determines if the given string represents a valid command.
- * 
- * @param command The command string to validate
- * @return The index of the command in the commands array if found,
- *         STOP_CODE if the command is "stop",
- *         FAILED_CODE if the command is invalid or NULL was passed
- * 
- * @note Checks for illegal trailing commas in the command string
- */
-int is_command(const char * command);
-
-/**
- * Frees all memory associated with a commandValue struct.
- * This includes freeing the array of argument strings and the struct itself.
- * Safely handles NULL pointers for both the struct and its members.
+ * Checks if a given string is a valid command and returns its index in the commands array.
  *
- * @param command Pointer to the commandValue struct to be freed
+ * @param command The string to check if it's a valid command
+ * @return The index of the command in the commands array if found,
+ *         UNDEFINED_COMMAND if the command is not found or input is NULL,
+ *         ILLEGAL_COMMA if the command ends with a comma
+ */
+int is_command(const char *command);
+
+/**
+ * @brief Frees all memory allocated for a commandValue struct.
+ *
+ * This function deallocates all memory associated with a commandValue struct,
+ * including the array of argument strings and the struct itself.
+ * It safely handles NULL pointers and sets freed pointers to NULL to prevent double-free.
+ *
+ * @param command Pointer to the commandValue struct to be freed.
+ *                If NULL, function returns without doing anything.
  */
 void free_command(commandValue *command);
 #endif /* COMMAND_FUNCS_H */

@@ -1,96 +1,100 @@
+
+/**
+ * @file argumentFuncs.h
+ * @brief Header file containing function declarations for argument handling
+ *
+ * @author Yonatan Schrift
+ * @date 23.12.2024
+ */
+
 #ifndef ARGUMENT_FUNCS_H
 #define ARGUMENT_FUNCS_H
 
 /* Type definition for argument types */
-typedef enum {
+typedef enum
+{
     ARG_COMPLEX,
     ARG_DOUBLE
 } ArgType;
 
-
-
 /**
- * Cleans a string by removing all whitespace characters.
- * 
- * @param arg The string to be cleaned. Can be NULL.
- * @return A newly allocated string with all whitespace removed, or NULL if:
- *         - The input string is NULL
+ * Cleans a string argument by removing all whitespace characters.
+ *
+ * @param arg The input string to be cleaned.
+ *
+ * @return A newly allocated string with all whitespace characters removed,
+ *         or NULL if:
+ *         - Input is NULL
+ *         - Input is empty string
  *         - Memory allocation fails
+ *
  * @note The caller is responsible for freeing the returned string.
  */
 char *clean_arg(char *arg);
 
-
 /**
- * Verifies if the given arguments match the expected format for a command.
- * The function checks both the number of arguments and their types.
- * 
- * @param args Array of string arguments to verify
- * @param command_index Index of the command in the global commands array to check against
- * @return SUCCESS_CODE (0) if arguments are valid, FAILED_CODE (-1) if validation fails
- * 
- * The function performs the following checks:
- * - Verifies the number of arguments matches the command's expected parameter count
- * - Checks for double commas in the argument list
- * - Validates each argument matches its expected type (complex or double)
+ * Verifies that the given arguments match the requirements of the specified command.
+ * Checks both the number of arguments and their types.
+ *
+ * @param args Array of argument strings to verify
+ * @param command_index Index of the command in the global commands array
+ *
+ * @return SUCCESS_CODE if arguments are valid,
+ *         EXTRA_COMMA if there are consecutive commas,
+ *         EXTRA_VARS if too many arguments provided,
+ *         MISSING_VARS if too few arguments provided,
+ *         INVALID_COMP if complex number argument is invalid,
+ *         INVALID_DOUBLE if double argument is invalid,
+ *         MISSING_COMMA if comma is missing between arguments
  */
 int verify_arguments(char **args, int command_index);
 
-
 /**
- * Verifies that the number of arguments passed matches the required number of parameters.
+ * Verifies if the number of provided arguments matches the required parameter count.
  *
  * @param req_param_count The required number of parameters for the command
  * @param args Array of argument strings to verify
- * @return SUCCESS_CODE if the number of arguments matches required parameters,
- *         FAILED_CODE if there are too many or too few arguments
  *
- * @note Prints appropriate error messages if the argument count is incorrect:
- *       - "Extraneous text after end of command" if too many arguments
- *       - "Missing X parameter(s)" if too few arguments
+ * @return SUCCESS_CODE if argument count matches required parameters,
+ *         EXTRA_VARS if too many arguments provided,
+ *         MISSING_VARS if too few arguments provided
  */
 int verify_argument_count(int req_param_count, char **args);
 
-
 /**
  * Verifies if a given argument matches the required argument type.
- * 
+ *
  * @param req_arg_type The required argument type (ARG_COMPLEX or ARG_DOUBLE)
  * @param arg The argument string to verify
- * @return SUCCESS_CODE if argument matches required type, FAILED_CODE otherwise
  *
- * For ARG_COMPLEX:
- * - Validates that arg is a single uppercase letter A-F
- * - Checks for missing comma between arguments
- *
- * For ARG_DOUBLE:
- * - Validates that arg can be converted to a valid double number
- *
- * Prints appropriate error message if validation fails.
+ * @return SUCCESS_CODE if verification passes, or one of the following error codes:
+ *         FAILED_CODE - if arg is NULL
+ *         MISSING_COMMA - if complex argument format indicates missing comma
+ *         INVALID_COMP - if complex argument is invalid
+ *         INVALID_DOUBLE - if double argument is invalid
  */
 int verify_argument_type(int req_arg_type, char *arg);
 
-
 /**
- * @brief Checks for consecutive commas in the command arguments
- * 
- * Searches through an array of argument strings and checks if any argument
- * is an empty string, which indicates consecutive commas in the original input.
+ * Checks if there are any consecutive commas in the arguments array by looking for empty strings.
  *
- * @param args Array of argument strings to check
- * @return SUCCESS_CODE if no consecutive commas found, FAILED_CODE if consecutive commas found or args is NULL
+ * @param args An array of strings containing the command arguments
+ *
+ * @return SUCCESS_CODE if no consecutive commas found
+ *         EXTRA_COMMA if consecutive commas detected (empty string found)
+ *         FAILED_CODE if args is NULL
  */
 int find_double_comma(char **args);
 
-
 /**
- * @brief Checks if a string represents a valid complex variable name.
+ * @brief Validates if a string represents a valid complex matrix variable (A-F)
  *
- * Validates if the given string represents a valid complex variable name,
- * which must be a single uppercase letter between 'A' and 'F'.
+ * @param ch A string containing a single character to be validated
  *
- * @param ch Pointer to the string to validate
- * @return SUCCESS_CODE (0) if valid, FAILED_CODE (-1) if invalid or NULL input
+ * @return SUCCESS_CODE if the character is a valid complex matrix variable (A-F),
+ *         INVALID_COMP if the character is not a valid complex matrix variable
+ *
+ * @note A valid complex matrix variable is a single uppercase letter from A to F
  */
 int is_complex(char *ch);
 

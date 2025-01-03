@@ -27,26 +27,35 @@ const Command commands[] = {
     {NULL, NULL, 0, {0}} /* Terminator entry */
 };
 
+/**
+ * Checks if a given string is a valid command and returns its index in the commands array.
+ *
+ * @param command The string to check if it's a valid command
+ * @return The index of the command in the commands array if found,
+ *         UNDEFINED_COMMAND if the command is not found or input is NULL,
+ *         ILLEGAL_COMMA if the command ends with a comma
+ */
 int is_command(const char *command)
 {
     int command_index;
 
-    /* Check for NULL input */
+    /* Return UNDEFINED_COMMAND if the input string is null */
     if (!command)
     {
         return UNDEFINED_COMMAND;
     }
 
-    /* Iterate through commands array to find matching command */
+    /* Iterate through 'commands' array to find matching command */
     for (command_index = 0; commands[command_index].name != NULL; command_index++)
     {
         if (strcmp(commands[command_index].name, command) == 0)
         {
+            /* Command found, return its index */
             return command_index;
         }
     }
 
-    /* Check for an illegal comma */
+    /* If the last character of the command is a comma, return ILLEGAL_COMMA */
     if (command[strlen(command) - 1] == ',')
     {
         return ILLEGAL_COMMA;
@@ -56,13 +65,27 @@ int is_command(const char *command)
     return UNDEFINED_COMMAND;
 }
 
+/**
+ * Reads a command from standard input character by character.
+ * Dynamically allocates memory for the command string, doubling the buffer size when needed.
+ *
+ * @return A pointer to the dynamically allocated string containing the command,
+ *         or NULL if:
+ *         - Memory allocation fails
+ *         - EOF is encountered with no input
+ *
+ * @note The returned string must be freed by the caller when no longer needed
+ */
 char *read_command(void)
 {
     char cur;
     char *buffer, *command;
     size_t capacity, index;
 
-    /* Initialize variables */
+    /* Initialize variables:
+    * capacity: Initial size of the dynamic buffer.
+    * index: Tracks the current position in the buffer.
+    */
     capacity = 8; /* starting size for the command */
     index = 0;
 
@@ -104,6 +127,34 @@ char *read_command(void)
     return command;
 }
 
+/**
+ * Splits a command string into its command and arguments.
+ *
+ * This function takes a command string and parses it into a commandValue structure
+ * containing the command index, command pointer, and an array of argument strings.
+ * The command is validated against the commands array and argument parsing follows
+ * these rules:
+ * - First token is split by whitespace (command name)
+ * - Subsequent tokens are split by commas (arguments)
+ * - Arguments are cleaned of whitespace
+ * - Checks for correct number of arguments based on command definition
+ *
+ * @param command The input string containing the command and arguments
+ * @return A pointer to a newly allocated commandValue structure containing:
+ *         - index: Command index or error code if validation fails
+ *         - cmd: Pointer to the command definition
+ *         - args: Array of argument strings (NULL-terminated)
+ *         Returns NULL if memory allocation fails or input is NULL
+ *
+ * Error codes returned in commandValue->index:
+ * - UNDEFINED_COMMAND: Command name not found
+ * - ILLEGAL_COMMA: Command ends with illegal comma
+ * - MISSING_VARS: Too few arguments provided
+ * - EXTRA_VARS: Too many arguments provided
+ * - FAILED_CODE: Memory allocation failure
+ *
+ * @note: Caller is responsible for freeing the returned structure using free_command()
+ */
 commandValue *split_command(const char *string)
 {
     commandValue *output;
@@ -116,6 +167,7 @@ commandValue *split_command(const char *string)
         return NULL;
     }
 
+    /* Allocate memory for the commandValue structure */
     output = malloc(sizeof(commandValue));
     if (!output)
     {
@@ -123,7 +175,7 @@ commandValue *split_command(const char *string)
         return NULL;
     }
 
-    /* Copies the command since strtok changes the string. */
+    /* Copy the input string because strtok modifies it */
     input_copy = copy_string(string);
     if (!input_copy)
     {
@@ -131,25 +183,26 @@ commandValue *split_command(const char *string)
         return output;
     }
     
-    /* Splits the string, The first part with a whitespace and the rest with commas. */
-    /* The first token will always be the command, so I'll check if it's a valid command. */
+    /* Split the string by the first whitespace to extract the command */
     token = strtok(input_copy, " ");
     cleaned_arg = clean_arg(token);
 
-    /* Validates the command and saves the index of the command in the commands array. */
+    /* Validate the command and store its index */
     output->index = is_command(cleaned_arg);
     free(cleaned_arg);
 
     if (output->index < SUCCESS_CODE)
     {
-        /* If we recieve an error code, returns the output without any args, and with the error code. */
+        /* If an error occurs, clean up and return */
         free(input_copy);
         output->args = NULL;
         return output;
     }
 
+    /* Retrieve the expected number of parameters for the command */
     param_count = commands[output->index].param_count;
 
+    /* Allocate memory for the arguments array, including NULL terminator */
     args = malloc((param_count + 1) * sizeof(char *));
     if (!args)
     {
@@ -161,17 +214,19 @@ commandValue *split_command(const char *string)
 
     args[param_count] = NULL; /* NULL-terminating the array */
 
+    /* Store the reference to the command structure */
     output->cmd = &commands[output->index];
 
-    /* Saves all the given arguments from the string into a string array */
+    /* Extract each argument, separated by commas */
     for (i = 0; i < param_count; i++)
     {
         token = strtok(NULL, ",");
         if (!token)
         {
+            /* Handle missing arguments and clean up allocated memory */
             output->index = MISSING_VARS;
             output->args = NULL;
-            /* Clean up previously allocated memory */
+            
             for (j = 0; j < i; j++)
             {
                 free(args[j]);
@@ -181,13 +236,13 @@ commandValue *split_command(const char *string)
             
             return output;
         }
-        args[i] = clean_arg(token);
+        args[i] = clean_arg(token); /* Clean (remove whitespaces) each argument */
     }
 
-    /* Edge cases: */
+    /* Handle edge cases, such as extra arguments or trailing commas */
     if (output->index >= SUCCESS_CODE)
     {
-        /* Check for extra text at the end*/
+        /* Check for extra text at the end */
         token = strtok(NULL, ",");
         
         if (token != NULL)

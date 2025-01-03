@@ -11,6 +11,11 @@
 #include <math.h> /* pow(), sqrt() */
 #include <stdio.h>
 
+/**
+ * Array of pointers to complex numbers, representing complex variables A through F.
+ * Index 0 corresponds to variable A, index 1 to B, and so on until F.
+ * Each element points to a complex number structure containing real and imaginary parts.
+ */
 complex *comp_vars[6]; /* Definition for A-F (6 variables) */
 
 void init_comp(complex *num)
@@ -95,18 +100,3 @@ void abs_comp(complex *A)
     printf("%.2f\n\n", ans);
 }
 
-complex *char_to_comp(char *ch)
-{
-    int index;
-
-    /* Validate input */
-    if (is_complex(ch) == INVALID_COMP)
-    {
-        return NULL;
-    }
-
-    /* Convert char to array index (A=0, B=1...) */
-    index = ch[0] - 'A';
-
-    return comp_vars[index];
-}

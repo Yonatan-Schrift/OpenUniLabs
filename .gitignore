@@ -1,0 +1,9 @@
+# Object files:
+.o
+
+# Compiled output:
+mycomp
+
+# Editor specific
+.vscode/
+
